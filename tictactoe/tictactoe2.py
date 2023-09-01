@@ -53,44 +53,45 @@ def PrintBoard(currentboard):
 
 def MiniMax(currentboard, playerturn, turnsplayed):
     # returns a move and a score
-    bestmove = None
-    
-    tempboard = currentboard
-    winner = CheckWin(tempboard)
+    winner = CheckWin(currentboard)
+
     if winner == 1:
-        return (None, turnsplayed - 10)
+        return turnsplayed-10
     elif winner == 2:
-        return (None, 10 - turnsplayed)
+        return 10-turnsplayed
     elif winner == 3:
-        return (None, 0)
-    
+        return 0
+
+
     if playerturn == 1:
         maxscore = -sys.maxsize
-        bestmove = None
-        for possiblemove in GetPossibleMoves(tempboard):
-            tempboard[possiblemove] = 1
-            (bestmove, score) = MiniMax(tempboard, 2, turnsplayed+1)
-            tempboard[possiblemove] = 0
-            if score > maxscore:
-                maxscore = score
-                bestmove = possiblemove
-                #print(bestmove, maxscore)
-        #print(bestmove, maxscore)
-        return (bestmove, maxscore)
-
-    elif playerturn == 2:
+        for i in GetPossibleMoves(currentboard):
+            currentboard[i] = 2
+            score = MiniMax(currentboard, 2, turnsplayed + 1)
+            currentboard[i] = 0
+            maxscore = max(score, maxscore)
+        return maxscore
+    else:
         minscore = sys.maxsize
-        bestmove = None
-        for possiblemove in GetPossibleMoves(tempboard):
-            tempboard[possiblemove] = 2
-            (bestmove, score) = MiniMax(tempboard, 1, turnsplayed+1)
-            tempboard[possiblemove] = 0
-            print(minscore)
-            if score < minscore:
-                minscore = score
-                bestmove = possiblemove
-        #print(bestmove, minscore)
-        return (bestmove, minscore)
+        for i in GetPossibleMoves(currentboard):
+            currentboard[i] = 1
+            score = MiniMax(currentboard,1, turnsplayed+1)
+            currentboard[i] = 0
+            minscore = min(score, minscore)
+        return minscore
+
+
+def GetBestMove(currentboard, turnsplayed):
+    minscore = -sys.maxsize
+    bestmove = None
+    for i in GetPossibleMoves(currentboard):
+        currentboard[i] = 2
+        score = MiniMax(currentboard, 2, 0)
+        currentboard[i] = 0
+        if score > minscore:
+            minscore = score
+            bestmove = i
+    return bestmove  
 
 
 def GetPossibleMoves(currentboard):
@@ -104,12 +105,10 @@ def GetPossibleMoves(currentboard):
 
 
 
-gameboard = [1,1,0,2,2,0,0,2,0]
+gameboard = [0] * 9
 playerturn = 1 #1 is player 1, 2 is player 2
 gamestate = 0 #0 for playing, 1 for 1 wins, 2 for 2 wins, 3 for draw
 turns = 0
-
-
 
 
 while(gamestate == 0):
@@ -124,22 +123,20 @@ while(gamestate == 0):
         turns = turns+1
     else:
         #get AI's input
-        minscore = sys.maxsize
-        for i in GetPossibleMoves(gameboard):
-            gameboard[i] = 2
-            (aimove, score) = MiniMax(gameboard, playerturn, 0)
-            gameboard[i] = 0
-            if score < minscore:
-                bestscore = score
-                bestmove = i 
-
-        print(bestmove, score)
-        print("AI Chooses: " + str(bestmove))
-        gameboard[bestmove] = 2
+        aimove = GetBestMove(gameboard, turns)
+        print("AI Chooses: " + str(aimove))
+        gameboard[aimove] = 2
         playerturn = 1
         turns = turns+1
     gamestate = CheckWin(gameboard)
     #print(gamestate)
+
+if (gamestate == 1):
+    print("Player wins!")
+    PrintBoard(gameboard)
+else:
+    print("AI wins!")
+    PrintBoard(gameboard)
 
 
 

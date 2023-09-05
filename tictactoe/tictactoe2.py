@@ -4,7 +4,7 @@
 
 import sys
 
-
+numevals = 0
 
 
 #method for check win in AI Tic-Tac-Toe Game
@@ -53,6 +53,8 @@ def PrintBoard(currentboard):
 
 def MiniMax(currentboard, playerturn, turnsplayed):
     # returns a move and a score
+    global numevals 
+    numevals = numevals +1
     winner = CheckWin(currentboard)
 
     if winner == 1:
@@ -86,7 +88,7 @@ def GetBestMove(currentboard, turnsplayed):
     bestmove = None
     for i in GetPossibleMoves(currentboard):
         currentboard[i] = 2
-        score = MiniMax(currentboard, 2, 0)
+        score = MiniMax(currentboard, 2, turnsplayed)
         currentboard[i] = 0
         if score > minscore:
             minscore = score
@@ -134,10 +136,13 @@ while(gamestate == 0):
 if (gamestate == 1):
     print("Player wins!")
     PrintBoard(gameboard)
-else:
+elif(gamestate == 2):
     print("AI wins!")
     PrintBoard(gameboard)
+else:
+    print("Stalemate!")
+    PrintBoard(gameboard)
 
-
+print("Number of evals: ", numevals)
 
 

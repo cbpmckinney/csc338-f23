@@ -120,7 +120,7 @@ def MiniMax(currentboard, playerturn, turnsplayed):
         maxscore = -sys.maxsize
         for i in GetPossibleMoves(currentboard):
             currentboard[i] = 2
-            score = MiniMax(currentboard, 2, turnsplayed + 1)
+            score = MiniMax(currentboard, 2, turnsplayed + 1, alpha, beta)
             currentboard[i] = 0
             maxscore = max(score, maxscore)
         return maxscore
@@ -128,7 +128,7 @@ def MiniMax(currentboard, playerturn, turnsplayed):
         minscore = sys.maxsize
         for i in GetPossibleMoves(currentboard):
             currentboard[i] = 1
-            score = MiniMax(currentboard,1, turnsplayed+1)
+            score = MiniMax(currentboard,1, turnsplayed+1, alpha, beta)
             currentboard[i] = 0
             minscore = min(score, minscore)
         return minscore
@@ -222,9 +222,10 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
             score = MiniMax(currentboard, 2, turnsplayed + 1, alpha, beta)
             currentboard[i] = 0
             maxscore = max(score, maxscore)
+            alpha = max(alpha, maxscore)
             if maxscore > beta:
                 break
-            alpha = max(alpha, maxscore)
+           
         return maxscore
     else:
         minscore = sys.maxsize
@@ -233,9 +234,10 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
             score = MiniMax(currentboard,1, turnsplayed+1, alpha, beta)
             currentboard[i] = 0
             minscore = min(score, minscore)
+            beta = min(beta, minscore)
             if minscore < alpha:
                 break
-            beta = min(beta, minscore)
+            
         return minscore
 
 

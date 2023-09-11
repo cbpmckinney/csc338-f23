@@ -96,6 +96,7 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
             maxscore = max(score, maxscore)
             alpha = max(alpha, maxscore)
             if maxscore >= beta:
+                print("Breaking!  Maxscore, beta, depth: ", maxscore, beta, turnsplayed)
                 break
         return maxscore
     else:
@@ -107,12 +108,15 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
             minscore = min(score, minscore)
             beta = min(beta, minscore)
             if minscore <= alpha:
+                print("Breaking!  Minscore, alpha, depth: ", minscore, alpha, turnsplayed)
                 break
         return minscore
 
 
 
-gameboard = [0] * 9
+#gameboard = [0] * 9
+#gameboard = [2,0,2,2,1,1,0,0,1]
+gameboard = [2,1,0,0,0,0,0,0,0]
 playerturn = 1 #1 is player 1, 2 is player 2
 gamestate = 0 #0 for playing, 1 for 1 wins, 2 for 2 wins, 3 for draw
 turns = 0

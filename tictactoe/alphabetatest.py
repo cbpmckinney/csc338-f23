@@ -58,7 +58,9 @@ def GetBestMove(currentboard, turnsplayed):
     bestmove = None
     for i in GetPossibleMoves(currentboard):
         currentboard[i] = 2
-        score = MiniMax(currentboard, 2, turnsplayed, -sys.maxsize, sys.maxsize)
+        print("AI Considering move ", i , " at depth ", turnsplayed)
+        PrintBoard(currentboard)
+        score = MiniMax(currentboard, 2, turnsplayed + 1, -sys.maxsize, sys.maxsize)
         currentboard[i] = 0
         if score > minscore:
             minscore = score
@@ -90,7 +92,7 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
     if playerturn == 1:
         maxscore = -sys.maxsize
         for i in GetPossibleMoves(currentboard):
-            print("Evaluating move: ", i, " at depth ", turnsplayed)
+            print("Evaluating move as Max: ", i, " at depth ", turnsplayed)
             currentboard[i] = 2
             PrintBoard(currentboard)
             score = MiniMax(currentboard, 2, turnsplayed + 1, alpha, beta)
@@ -105,7 +107,7 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
         minscore = sys.maxsize
         for i in GetPossibleMoves(currentboard):
             currentboard[i] = 1
-            print("Evaluating move: ", i, " at depth ", turnsplayed)
+            print("Evaluating move as Min: ", i, " at depth ", turnsplayed)
             PrintBoard(currentboard)
             score = MiniMax(currentboard,1, turnsplayed+1, alpha, beta)
             currentboard[i] = 0

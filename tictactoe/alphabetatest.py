@@ -67,6 +67,11 @@ def GetBestMove(currentboard, turnsplayed):
             bestmove = i
     return bestmove  
 
+def terminalmove(turnsplayed, alpha, beta, terminalvalue):
+    print("Pausing at terminal node")
+    print("(Alpha, beta, value) = ", alpha, beta, terminalvalue)
+    input("Press any key to continue: ")
+
 
 def GetPossibleMoves(currentboard):
     PossibleMoves = []
@@ -82,10 +87,15 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
     winner = CheckWin(currentboard)
 
     if winner == 1:
+        terminalmove(turnsplayed, alpha, beta, turnsplayed-10)
         return turnsplayed-10
+        
     elif winner == 2:
+        terminalmove(turnsplayed, alpha, beta, 10-turnsplayed)
         return 10-turnsplayed
+        
     elif winner == 3:
+        terminalmove(turnsplayed, alpha, beta, 0)
         return 0
 
 

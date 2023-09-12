@@ -69,7 +69,7 @@ def GetBestMove(currentboard, turnsplayed):
 
 def terminalmove(turnsplayed, alpha, beta, terminalvalue):
     print("Pausing at terminal node")
-    print("(Alpha, beta, value) = ", alpha, beta, terminalvalue)
+    print("(Depth, alpha, beta, value) = ", turnsplayed, alpha, beta, terminalvalue)
     input("Press any key to continue: ")
 
 
@@ -109,6 +109,7 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
             currentboard[i] = 0
             maxscore = max(score, maxscore)
             alpha = max(alpha, maxscore)
+            print("Alpha is: ", alpha)
             if maxscore >= beta:
                 print("Breaking!  Maxscore, alpha, beta, depth: ", maxscore, alpha, beta, turnsplayed)
                 break
@@ -123,6 +124,7 @@ def MiniMax(currentboard, playerturn, turnsplayed, alpha, beta):
             currentboard[i] = 0
             minscore = min(score, minscore)
             beta = min(beta, minscore)
+            print("Beta is: ", beta)
             if minscore <= alpha:
                 print("Breaking!  Minscore, alpha, beta, depth: ", minscore, alpha, beta, turnsplayed)
                 break
